@@ -10,12 +10,8 @@ searchForm.addEventListener('submit', async (event) => {
     resultsContainer.innerHTML = '<p>Đang tìm kiếm...</p>';
 
     try {
-        const response = await fetch('/search', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `query=${encodeURIComponent(query)}`,
+        const response = await fetch(`/search?query=${encodeURIComponent(query)}`, {
+            method: 'GET', // Thay đổi thành GET
         });
 
         if (!response.ok) {
@@ -23,7 +19,7 @@ searchForm.addEventListener('submit', async (event) => {
         }
 
         const data = await response.json();
-        displayResults(data.data); // Dữ liệu kết quả từ Flask
+        displayResults(data.data);
     } catch (error) {
         console.error('Lỗi khi gửi yêu cầu tìm kiếm:', error);
         resultsContainer.innerHTML = '<p>Có lỗi xảy ra khi tìm kiếm.</p>';
